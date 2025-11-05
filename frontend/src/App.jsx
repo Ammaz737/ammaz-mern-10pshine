@@ -9,11 +9,12 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NoteEditor from "./pages/NoteEditor";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "../store/authStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import FloatingShape from "./components/FloatingShape";
 import NoteViewPage from "./pages/NoteViewPage";
 import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
 
  
 const ProtectedRoute = ({ children }) => {
@@ -43,6 +44,7 @@ const RedirectAuthenticatedUser = ({ children }) => {
 
 function App() {
 	const { isCheckingAuth, checkAuth, isAuthenticated } = useAuthStore();
+	const [selectedFolder, setSelectedFolder] = useState(null);
 
 	useEffect(() => {
 		checkAuth();
@@ -60,70 +62,81 @@ function App() {
 			<FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
 
 			{isAuthenticated && <Header />}
-			<main className="flex-grow flex items-center justify-center">
-				<Routes>
-					<Route
-						path='/'
-						element={
-							<ProtectedRoute>
-								<DashboardPage />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path='/note/edit/:id'
-						element={
-							<ProtectedRoute>
-								<NoteEditor />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path='/note/view/:id'
-						element={
-							<ProtectedRoute>
-								<NoteViewPage />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path='/signup'
-						element={
-							<RedirectAuthenticatedUser>
-								<SignUpPage />
-							</RedirectAuthenticatedUser>
-						}
-					/>
-					<Route
-						path='/login'
-						element={
-							<RedirectAuthenticatedUser>
-								<LoginPage />
-							</RedirectAuthenticatedUser>
-						}
-					/>
-					<Route path='/verify-email' element={<EmailVerificationPage />} />
-					<Route
-						path='/forgot-password'
-						element={
-							<RedirectAuthenticatedUser>
-								<ForgotPasswordPage />
-							</RedirectAuthenticatedUser>
-						}
-					/>
+			<div className='flex flex-grow'>
+				{isAuthenticated && <Sidebar setSelectedFolder={setSelectedFolder} />}
+				<main className='flex-grow flex items-center justify-center'>
+					<Routes>
+						<Route
+							path='/'
+							element={
+								<ProtectedRoute>
+									<DashboardPage selectedFolder={selectedFolder} />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/note/new'
+							element={
+								<ProtectedRoute>
+									<NoteEditor />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/note/edit/:id'
+							element={
+								<ProtectedRoute>
+									<NoteEditor />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/note/view/:id'
+							element={
+								<ProtectedRoute>
+									<NoteViewPage />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/signup'
+							element={
+								<RedirectAuthenticatedUser>
+									<SignUpPage />
+								</RedirectAuthenticatedUser>
+							}
+						/>
+						<Route
+							path='/login'
+							element={
+								<RedirectAuthenticatedUser>
+									<LoginPage />
+								</RedirectAuthenticatedUser>
+							}
+						/>
+						<Route path='/verify-email' element={<EmailVerificationPage />} />
+						<Route
+							path='/forgot-password'
+							element={
+								<RedirectAuthenticatedUser>
+									<ForgotPasswordPage />
+								</RedirectAuthenticatedUser>
+							}
+						/>
 
-					<Route
-						path='/reset-password/:token'
-						element={
-							<RedirectAuthenticatedUser>
-								<ResetPasswordPage />
-							</RedirectAuthenticatedUser>
-						}
-					/>
- 
-					<Route path='*' element={<Navigate to='/' replace />} />
-				</Routes>
-			</main>
+						<Route
+							path='/reset-password/:token'
+							element={
+								<RedirectAuthenticatedUser>
+									<ResetPasswordPage />
+								</RedirectAuthenticatedUser>
+							}
+						/>
+
+						<Route path='*' element={<Navigate to='/' replace />} />
+					</Routes>
+				</main>
+			</div>
 			<Toaster />
 		</div>
 	);
