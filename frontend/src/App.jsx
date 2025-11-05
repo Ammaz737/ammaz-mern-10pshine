@@ -71,6 +71,14 @@ function App() {
 						}
 					/>
 					<Route
+						path='/note/new'
+						element={
+							<ProtectedRoute>
+								<NoteEditor />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
 						path='/note/edit/:id'
 						element={
 							<ProtectedRoute>
