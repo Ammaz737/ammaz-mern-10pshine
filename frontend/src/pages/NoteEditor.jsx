@@ -5,6 +5,7 @@ import { useNoteStore } from "../../store/noteStore";
 import toast from 'react-hot-toast';
 import { generateWithLlm } from "./api";
 
+
 const NoteEditor = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const NoteEditor = () => {
     const [llmPrompt, setLlmPrompt] = useState("");
     const [isLlmLoading, setIsLlmLoading] = useState(false);
 
-    const isEditing = id !== 'new';
+    const isEditing = id !== undefined;
 
     useEffect(() => {
         if (isEditing) {
@@ -51,6 +52,7 @@ const NoteEditor = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submitting note with data:", { title, content, tags });
         try {
             if (isEditing) {
                 await updateNote({ id, title, content, tags });
@@ -61,6 +63,7 @@ const NoteEditor = () => {
             }
             navigate("/");
         } catch (error) {
+            console.error("Error saving note:", error);
             toast.error('Failed to save note.');
         }
     };

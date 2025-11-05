@@ -1,0 +1,20 @@
+ne\backend\node_modules\router\index.js:295:15
+[nodemon] restarting due to changes...
+[nodemon] restarting due to changes...
+[nodemon] starting `node index.js`
+[dotenv@17.2.3] injecting env (8) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local
+', '.env'] }
+Server is running on port 3000
+MongoDB connected successfully with $(mongoose.connection.host)
+Request body: { title: 'Tissue', content: 'Tissue Paper', tags: [ 'Tissue' ] }
+Error creating note: TypeError: Cannot read properties of undefined (reading '_id')
+    at createNote (file:///C:/Users/DELL/Desktop/ammaz-mern-10pshine/ammaz-mern-10pshine/ammaz-mern-10pshine/ammaz-mern-10pshine/backend/controller/note.controller.js:17:29)
+    at Layer.handleRequest (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\lib\route.js:157:13)
+    at verifyToken (file:///C:/Users/DELL/Desktop/ammaz-mern-10pshine/ammaz-mern-10pshine/ammaz-mern-10pshine/ammaz-mern-10pshine/backend/middleware/verifyToken.js:9:9)
+    at Layer.handleRequest (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\DELL\Desktop\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\ammaz-mern-10pshine\backend\node_modules\router\index.js:295:15

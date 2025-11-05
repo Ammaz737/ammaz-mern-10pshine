@@ -16,9 +16,10 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tags: {
-        type: [String],
-        default: [],
+    tags: [{ type: String }],
+    folder: {
+      type: String,
+      default: null,
     },
     isPinned: {
         type: Boolean,

@@ -1,20 +1,31 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useNoteStore } from "../../store/noteStore";
+import { useFolderStore } from "../../store/folderStore";
 import { formatDate } from "../utils/date";
-import { FiEdit, FiArrowLeft } from "react-icons/fi";
+import { FiEdit, FiArrowLeft, FiMove } from "react-icons/fi";
 
 const NoteViewPage = () => {
     const { id } = useParams();
-    const { notes, getNotes } = useNoteStore();
+    const { notes, getNotes, moveNoteToFolder } = useNoteStore();
+    const { folders, getFolders } = useFolderStore();
     const note = notes.find((note) => note._id === id);
+    const [isMoveMenuOpen, setIsMoveMenuOpen] = useState(false);
 
     useEffect(() => {
         if (notes.length === 0) {
             getNotes();
         }
-    }, [getNotes, notes.length]);
+        if (folders.length === 0) {
+            getFolders();
+        }
+    }, [getNotes, notes.length, getFolders, folders.length]);
+
+    const handleMoveNote = async (folderId) => {
+        await moveNoteToFolder(id, folderId);
+        setIsMoveMenuOpen(false);
+    };
 
     if (!note) {
         return <div className="text-white text-center">Loading...</div>;
@@ -38,21 +49,55 @@ const NoteViewPage = () => {
                         <span>Last updated: {formatDate(note.updatedAt)}</span>
                     </div>
                 </div>
-                <Link to={`/note/edit/${note._id}`}>
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className='flex items-center space-x-2 py-2 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900'
-                    >
-                        <FiEdit />
-                        <span>Edit</span>
-                    </motion.button>
-                </Link>
+                <div className="flex items-center space-x-4">
+                    <div className="relative">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setIsMoveMenuOpen(!isMoveMenuOpen)}
+                            className='flex items-center space-x-2 py-2 px-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900'
+                        >
+                            <FiMove />
+                            <span>Move to</span>
+                        </motion.button>
+                        {isMoveMenuOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg z-10"
+                            >
+                                <ul className="py-1">
+                                    {folders.map((folder) => (
+                                        <li key={folder._id}>
+                                            <button
+                                                onClick={() => handleMoveNote(folder._id)}
+                                                className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
+                                            >
+                                                {folder.name}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        )}
+                    </div>
+                    <Link to={`/note/edit/${note._id}`}>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className='flex items-center space-x-2 py-2 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900'
+                        >
+                            <FiEdit />
+                            <span>Edit</span>
+                        </motion.button>
+                    </Link>
+                </div>
             </div>
 
-            <div className="prose prose-invert max-w-none text-gray-300 whitespace-pre-wrap mb-6">
-                {note.content}
-            </div>
+            <div className="prose prose-invert max-w-none text-gray-300 mb-6"
+                dangerouslySetInnerHTML={{ __html: note.content }}
+            ></div>
 
             {note.tags && note.tags.length > 0 && (
                 <div className="mb-6">
