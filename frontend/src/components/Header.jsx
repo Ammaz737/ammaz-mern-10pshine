@@ -1,19 +1,20 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import ProfileModal from './ProfileModal';
-import CreateNoteModal from './CreateNoteModal';
 
 const Header = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [isCreateNoteModalOpen, setIsCreateNoteModalOpen] = useState(false);
   const profileIconRef = useRef(null);
+  const navigate = useNavigate();
 
   const openProfileModal = () => setIsProfileModalOpen(prev => !prev);
   const closeProfileModal = () => setIsProfileModalOpen(false);
 
-  const openCreateNoteModal = () => setIsCreateNoteModalOpen(true);
-  const closeCreateNoteModal = () => setIsCreateNoteModalOpen(false);
+  const handleCreateNoteClick = () => {
+    navigate('/note/new');
+  };
 
   return (
     <>
@@ -25,7 +26,7 @@ const Header = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={openCreateNoteModal}
+            onClick={handleCreateNoteClick}
             className='px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900'
           >
             Create Note
@@ -42,7 +43,6 @@ const Header = () => {
         </div>
       </header>
       <ProfileModal isOpen={isProfileModalOpen} onClose={closeProfileModal} />
-      <CreateNoteModal isOpen={isCreateNoteModalOpen} onClose={closeCreateNoteModal} />
     </>
   );
 };

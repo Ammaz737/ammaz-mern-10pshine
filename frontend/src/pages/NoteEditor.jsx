@@ -5,6 +5,7 @@ import { useNoteStore } from "../../store/noteStore";
 import toast from 'react-hot-toast';
 import { generateWithLlm } from "./api";
 
+
 const NoteEditor = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const NoteEditor = () => {
     const [llmPrompt, setLlmPrompt] = useState("");
     const [isLlmLoading, setIsLlmLoading] = useState(false);
 
-    const isEditing = id !== 'new';
+    const isEditing = id !== undefined;
 
     useEffect(() => {
         if (isEditing) {
