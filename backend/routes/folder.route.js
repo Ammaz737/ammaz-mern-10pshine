@@ -1,4 +1,3 @@
-
 import express from "express";
 import { createFolder, getFolders, renameFolder, deleteFolder } from "../controller/folder.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
