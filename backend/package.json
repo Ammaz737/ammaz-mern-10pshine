@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +19,15 @@
     "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jest": "^30.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
     "nodemailer": "^7.0.10"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "mockingoose": "^2.16.2",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4",
+    "tslib": "^2.8.1"
   }
 }
