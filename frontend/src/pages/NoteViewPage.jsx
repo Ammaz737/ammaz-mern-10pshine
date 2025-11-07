@@ -50,9 +50,9 @@ const NoteViewPage = () => {
                 </Link>
             </div>
 
-            <div className="prose prose-invert max-w-none text-gray-300 whitespace-pre-wrap mb-6">
-                {note.content}
-            </div>
+            <div className="prose prose-invert max-w-none text-gray-300 mb-6"
+                dangerouslySetInnerHTML={{ __html: note.content }}
+            ></div>
 
             {note.tags && note.tags.length > 0 && (
                 <div className="mb-6">
