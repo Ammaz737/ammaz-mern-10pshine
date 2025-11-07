@@ -1,0 +1,6 @@
+projectKey=ammaz-mern-10pshine
+serverUrl=http://localhost:9000
+serverVersion=25.11.0.114957
+dashboardUrl=http://localhost:9000/dashboard?id=ammaz-mern-10pshine
+ceTaskId=1c900c44-0c07-485f-941f-4e89d73a0c9a
+ceTaskUrl=http://localhost:9000/api/ce/task?id=1c900c44-0c07-485f-941f-4e89d73a0c9a
