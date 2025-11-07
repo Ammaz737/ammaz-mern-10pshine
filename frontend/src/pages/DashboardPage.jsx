@@ -4,7 +4,7 @@ import { useNoteStore } from '../../store/noteStore';
 import NoteCard from '../components/NoteCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const DashboardPage = () => {
+const DashboardPage = ({ selectedFolder }) => {
   const { notes, getNotes, isLoading } = useNoteStore();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -14,10 +14,18 @@ const DashboardPage = () => {
 
   const filteredNotes = notes.filter(note => {
     const query = searchQuery.toLowerCase();
+    let inFolder = true;
+    if (selectedFolder === "") {
+      inFolder = !note.folder;
+    } else if (selectedFolder) {
+      inFolder = note.folder === selectedFolder;
+    }
+
     return (
-      note.title.toLowerCase().includes(query) ||
+      inFolder &&
+      (note.title.toLowerCase().includes(query) ||
       note.content.toLowerCase().includes(query) ||
-      (note.tags && note.tags.some(tag => tag.toLowerCase().includes(query)))
+      (note.tags && note.tags.some(tag => tag.toLowerCase().includes(query))))
     );
   });
 
@@ -55,3 +63,4 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+

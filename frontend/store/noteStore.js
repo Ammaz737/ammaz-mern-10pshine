@@ -21,10 +21,13 @@ export const useNoteStore = create((set) => ({
 
   createNote: async ({ title, content, tags }) => {
     set({ isLoading: true, error: null });
+    console.log("Making API call to create note with data:", { title, content, tags });
     try {
       const response = await api.post(API_URL, { title, content, tags });
+      console.log("API response:", response);
       set((state) => ({ notes: [...state.notes, response.data.note], isLoading: false }));
     } catch (error) {
+      console.error("Error creating note:", error);
       set({ error: error.response?.data?.message || "Error creating note", isLoading: false });
       throw error;
     }
@@ -67,5 +70,19 @@ export const useNoteStore = create((set) => ({
               set({ error: error.response.data.message || "Error pinning note", isLoading: false });
               throw error;
           }
+      },
+
+      moveNoteToFolder: async (id, folderId) => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await api.put(`${API_URL}/move/${id}`, { folderId });
+          set((state) => ({
+            notes: state.notes.map((note) => (note._id === id ? response.data.note : note)),
+            isLoading: false,
+          }));
+        } catch (error) {
+          set({ error: error.response.data.message || "Error moving note", isLoading: false });
+          throw error;
+        }
       },
   }));

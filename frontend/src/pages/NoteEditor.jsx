@@ -52,6 +52,7 @@ const NoteEditor = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submitting note with data:", { title, content, tags });
         try {
             if (isEditing) {
                 await updateNote({ id, title, content, tags });
@@ -62,6 +63,7 @@ const NoteEditor = () => {
             }
             navigate("/");
         } catch (error) {
+            console.error("Error saving note:", error);
             toast.error('Failed to save note.');
         }
     };
